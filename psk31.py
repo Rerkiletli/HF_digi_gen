@@ -8,7 +8,7 @@ PSK31_FREQ = 1000  # Center frequency
 PSK31_SAMPLE_RATE = 44100
 PSK31_SAMPLES_PER_SYMBOL = int(PSK31_SAMPLE_RATE / PSK31_BAUD)
 
-# Varicode for PSK31
+# Corrected Varicode for PSK31
 VARICODE = {
     'A': '1011000', 'B': '1011100', 'C': '1011110', 'D': '1011111', 'E': '110',
     'F': '1101100', 'G': '1101110', 'H': '1101111', 'I': '1110', 'J': '1110100',
@@ -17,7 +17,7 @@ VARICODE = {
     'U': '10111100', 'V': '10111110', 'W': '10111111', 'X': '11100100', 'Y': '11100110',
     'Z': '11100111', '0': '10110100', '1': '10110110', '2': '10110111', '3': '10111000',
     '4': '10111010', '5': '10111011', '6': '11100000', '7': '11100010', '8': '11100011',
-    '9': '11100111', ' ': '1', '\n': '11101'
+    '9': '11100001', ' ': '1', '\n': '11101'
 }
 
 # PSK31 functions
@@ -32,7 +32,13 @@ def psk31_modulate(bits):
     return modulated
 
 def encrypt(message):
-    return ''.join(VARICODE.get(char.upper(), VARICODE[' ']) + '00' for char in message) + '00000000'
+    encoded = ''
+    for char in message.upper():
+        if char in VARICODE:
+            encoded += VARICODE[char] + '00'
+        else:
+            encoded += VARICODE[' '] + '00'  # Use space for unknown characters
+    return encoded + '00000000'  # Add end-of-message marker
 
 def decrypt(encoded_message):
     reverse_varicode = {v: k for k, v in VARICODE.items()}
@@ -44,8 +50,9 @@ def decrypt(encoded_message):
             if buffer[:-2] in reverse_varicode:
                 decoded += reverse_varicode[buffer[:-2]]
             buffer = ''
+        if buffer == '00000000':  # End-of-message marker
+            break
     return decoded
-
 
 def generate_tone(freq, duration):
     return Sine(freq).to_audio_segment(duration=duration)

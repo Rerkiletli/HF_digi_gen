@@ -23,6 +23,7 @@ def process_message(message, mode):
     encrypted = encrypt(message)
     decrypted = decrypt(encrypted)
     
+    '''
     # Handling potential differences in audio_func return values
     audio_result = audio_func(encrypted)
     if isinstance(audio_result, tuple):
@@ -30,11 +31,17 @@ def process_message(message, mode):
     else:
         audio = audio_result
         sample_rate = getattr(audio, 'frame_rate', 44100)  # Default to 44100 if not specified
+    '''
     
     print(f"{mode.upper()} Encrypted: {encrypted}")
     print(f"{mode.upper()} Decrypted: {decrypted}")
     print(f"Sample rate: {sample_rate} Hz")
-    
+
+
+    wav_output = ""
+    iq_output = ""
+
+    '''
     wav_output = f"{save_path}/{mode}_message.wav"
     audio.export(wav_output, format="wav")
     print(f"{mode.upper()} audio saved as {wav_output}")
@@ -42,6 +49,7 @@ def process_message(message, mode):
     iq_output = f"{save_path}/{mode}_message.iq"
     wav_to_iq.wav_to_iq(wav_output, iq_output)
     print(f"{mode.upper()} IQ data saved as {iq_output}")
+    '''
     
     return encrypted, decrypted, wav_output, iq_output, sample_rate
 

@@ -30,5 +30,8 @@ Make sure you have the following dependencies installed:
 You can install `pydub` using pip if it's not already installed:
 
 ```bash
-pip install pydub
+pip install pydub==0.25.1
+pip install audioop-lts==0.2.1
+pip install numpy==2.2.2
+pip install scipy==1.15.1
 ```

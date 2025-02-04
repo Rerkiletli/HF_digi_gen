@@ -25,9 +25,8 @@ Make sure you have the following dependencies installed:
 - `psk31` (a module for PSK31 encoding)
 - `mfsk16` (a module for MFSK16 encoding)
 - `wav_to_iq` (a module to convert WAV files to IQ format)
-- `pydub` (for audio file manipulation)
 
-You can install `pydub` using pip if it's not already installed:
+You can install required packages using pip if it's not already installed:
 
 ```bash
 pip install pydub==0.25.1
@@ -35,3 +34,16 @@ pip install audioop-lts==0.2.1
 pip install numpy==2.2.2
 pip install scipy==1.15.1
 ```
+
+or
+
+```bash
+pip install -r requirements.txt
+```
+
+## TODO
+
+- GNU Radio Integration
+- WEBUI
+- Dockerfile
+- RTL_SDR Integration
